@@ -1,0 +1,78 @@
+create database codefiest;
+
+use codefiest;
+
+
+create table admin
+( Email varchar(50) primary key,
+   password varchar(50))engine=innodb;
+
+insert into  admin values('admin@gmail.com','0000');
+
+
+Create table categories
+( cat_code int primary key auto_increment,
+  cat_name varchar(100) unique
+   )engine=innodb;
+
+create table courses
+( course_code int primary key auto_increment,
+   course_name varchar(30) unique,
+	cat_code int,
+   duration varchar(10), 
+   discription varchar(1000), 
+   lecture_count int default 0,
+   teacher_name varchar(100),
+   rating int default 0,
+   preview_img varchar(500),
+   foreign key(cat_code) references categories(cat_code))engine=innodb;
+
+create table course_videos
+( vid int primary key auto_increment, 
+	course_code int,
+   v_duration varchar(10), 
+ v_title varchar(100), 
+   v_description varchar(1000),  
+   videourl varchar(500),
+   foreign key(course_code) references courses(course_code))engine=innodb;	
+
+
+Create table student
+( student_id int primary key auto_increment,
+   name varchar(25),
+   email varchar(50) unique,
+   password varchar(10))engine=innodb;
+
+Create table enroll
+( enrollid int primary key auto_increment,
+ course_code int,
+student_id int,
+foreign key(course_code) references courses(course_code),
+foreign key(student_id) references student(student_id))engine=innodb;
+
+
+Create table quiz
+( qid int primary key auto_increment,
+  course_code int,
+  Question varchar(300),
+  A varchar(200),
+  B varchar(200),
+  C varchar(200),
+  D varchar(200), 
+  Answer varchar(200),
+  foreign key(course_code) references courses(course_code))engine=innodb;
+
+
+Create table code
+( codeid int primary key auto_increment,
+   student_id int,
+   code varchar(1000),  
+foreign key(student_id) references student(student_id))engine=innodb;
+
+Create table comment
+( commentid int primary key auto_increment,
+   student_id int,
+   comment varchar(1000),  
+course_code int,
+foreign key(student_id) references student(student_id),
+foreign key(course_code) references courses(course_code))engine=innodb;
